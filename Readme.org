@@ -3,9 +3,82 @@
 
 
 ** Spring Core
-   - IoC(Inversion of Control) 제어의 역전
-   - DI(Dependency Injection) 종속성 주입
+   1. IoC(제어의 역전현상)의 이해
+   IoC는 Inversion of Control의 약자이다.
+   POJO 객체의 라이프 사이클을 IoC 컨테이너가 관리해주는 것으로 바뀌는 것을 말한다.
+
+   1.1 제어의 역전현상 이란?
+   기존에 자바 기반으로 어플리케이션을 개발할 때 자바 객체를 생성하고 서로간의 의존 관계를 연결시키는 작업에 대한 제어권은 보통 개발되는 어플리케이션에 있었다.
+   그러나 Servlet, EJB 등을 사용하는 경우 Servlet Container, EJB Container에게 제어권이 넘어가서 객체의 생명주기(Life Cycle)를 Container들이 전담하게 된다.
+   이처럼 IoC에서 이야기하는 제어권의 역전이란 객체의 생성에서부터 소멸까지의 생명주기의 관리까지 모든 객체에 대한 제어권이 바뀌었다는 것을 의미한다.
+
+   1.2 IoC의 장/단점
+   장점
+   인터페이스 기반 설계가 가능.
+   컴퍼넌트 재사용성 증가
+   체계적이고 효율적인 Dependency 관리
+
+   단점
+   제어구조가 반대로 되어 있으므로 이해하기 어려운 코드가 될 수 있음
+
+   2. DI(Dependency Injection) 및 DL(Dependency Lookup)의 이해
+   2.1 Dependency Injection(의존성 삽입)의 이해
+   Dependency Injection이란 각 클래스 사이의 의존관계를 빈 설정(Bean Definition)정보를 바탕으로 컨테이너가 자동적으로 연결해주는 것을 말한다.
+   개발자들은 단지 빈 설정파일(저장소 관리 파일)에서 의존관계가 필요하다는 정보를 추가하기만 하면 된다. (어노테이션 또는 XML)
+
+   Dependency Injection의 장점
+   코드가 단순해 진다.
+   컴포넌트간의 결합도가 제거된다.
+   테스트가 유리하다. Mock/Stub 사용 가능
+
+   Dependency Injection의 분류
+   Constructor Injection : 컴퍼넌트의 dependency 가 constructor의 argument를 통해 제공되는 방식
+   Setter Injection : 컴퍼넌트의 dependency 가 JavaBean-style setter를 통해 제공되는 방식
+   Method(Interface) Injection : 컴퍼넌트의 dependency 가 일반 메소드를 통해서 제공되는 방식 (거의 사용하지 않으므로 배우지 않겠다.)
+
+   [[http://wiki.gurubee.net/pages/viewpage.action?pageId=26740787][참고]]
+
    - AOP(Aspect-Oriented Programming) 관점 지향 프로그래밍
+   소트트웨어 내부의 관심사들을 서로 분리한는 기술이라고 설명할 수 있다. 
+   소프트웨어가 각 컴포넌트가 공통적으로 가지는 횡단 관심사에 대한 서비스를 모듈화하여 소프트웨어의 복잡성을 낮추고 코드의 재사용성을 높이는 결과를 준다.
+
+   관점지향 프로그래밍(Aspect Oriented Programming, 이하 AOP)
+   자체적인 언어라기보다는 기존의 OOP언어를 보완하는 확장 형태로 사용되고 있다.
+   자바진영에서 사용되는 AOP도구 중 대표적인 것으로 AspectJ, JBossAOP, SpringAOP가 존재 한다.
+
+   3. AOP 용어
+   3.1 Joinpoint
+   메소드를 호출하는 '시점', 예외가 발생하는 '시점'과 같이 애플리케이션을 실행할 때 특정 작업이 실행되는 '시점'을 의미한다.
+
+   3.2 Advice
+   Joinpoint에서 실행되어야 하는 코드
+   횡단관점에 해당함 (트랜잭션/로그/보안/인증등..)
+
+   3.3 Target
+   실질적인 비지니스 로직을 구현하고 있는 코드
+   핵심관점에 해당함 (업무로직)
+
+   3.4 Pointcut
+   Target 클래스와 Advice가 결합(Weaving)될 때 둘 사이의 결합규칙을 정의하는 것이다
+   예로 Advice가 실행된 Target의 특정 메소드등을 지정
+
+   3.5 Aspect
+   Advice와 Pointcut을 합쳐서 하나의 Aspect라고 한다.
+   즉 일정한 패턴을 가지는 클래스에 Advice를 적용하도록 지원할 수 있는 것을 Aspect라고 한다.
+
+   3.6 Weaving
+   AOP에서 Joinpoint들을 Advice로 감싸는 과정을 Weaving이라고 한다.
+   Weaving 하는 작업을 도와주는 것이 AOP 툴이 하는 역할이다
+   
+   4. Spring AOP의 특징
+   4.1 특징
+   스프링은 Aspect의 적용 대상(target)이 되는 객체에 대한 Proxy를 만들어 제공.
+   대상객체(Target)를 사용하는 코드는 대상객체(Target)를 Proxy를 통해서 간접적으로 접근.
+   Proxy는 공통기능(Advice)을 실행한 뒤 대상객체(Target)의 실제 메서드를 호출하거나 또는 대상객체(Target)의 실제 메소드가 호출된 뒤 공통기능(Advice)을 실행
+   
+   [[http://wiki.gurubee.net/pages/viewpage.action?pageId=26740833][참고]]
+
+
 
 ** Spring-Boot
 
